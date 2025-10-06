@@ -1,0 +1,176 @@
+<div class="auth-container">
+  <!-- Toggle Login/Register -->
+  <div class="auth-toggle">
+    <span id="toggle-login" class="active">Login</span>
+    <span id="toggle-register">Register</span>
+  </div>
+
+  <!-- Forms Wrapper (para animaciones) -->
+  <div class="forms-wrapper">
+    <!-- Login Form -->
+    <form
+      id="login-form"
+      action="/login"
+      method="POST"
+      class="auth-form active"
+    >
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="submit" value="Login" class="btn" />
+    </form>
+
+    <!-- Register Form -->
+    <form id="register-form" action="/register" method="POST" class="auth-form">
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="submit" value="Register" class="btn btn-register" />
+    </form>
+  </div>
+
+  <!-- Guest Button -->
+  <form action="/guest" method="POST">
+    <input type="submit" value="Continue as Guest" class="btn btn-guest" />
+  </form>
+</div>
+
+<style>
+  /* Contenedor principal */
+  .auth-container {
+    background: #f3f4f6;
+    padding: 2.5rem;
+    border-radius: 12px;
+    max-width: 400px;
+    margin: 3rem auto;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+  }
+
+  /* Toggle */
+  .auth-toggle {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    color: #1c1c1c;
+  }
+
+  .auth-toggle span {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .auth-toggle span.active {
+    background: #1c1c1c;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .auth-toggle span:not(.active):hover {
+    color: #555;
+    transform: translateY(-2px);
+  }
+
+  /* Forms Wrapper */
+  .forms-wrapper {
+    position: relative;
+    min-height: 220px; /* suficiente para animaciones */
+  }
+
+  /* Forms */
+  .auth-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: all 0.4s ease;
+  }
+
+  .auth-form.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Inputs */
+  .auth-form input[type="text"],
+  .auth-form input[type="password"] {
+    width: 100%;
+    padding: 0.9rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border 0.3s, box-shadow 0.3s;
+  }
+
+  .auth-form input:focus {
+    border-color: #1c1c1c;
+    box-shadow: 0 4px 12px rgba(28, 28, 28, 0.15);
+    outline: none;
+  }
+
+  /* Buttons */
+  .btn {
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 10px;
+    border: none;
+    background: #1c1c1c;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-register {
+    background: #333;
+  }
+
+  .btn-guest {
+    background: #666;
+    margin-top: 1rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .auth-container {
+      padding: 2rem 1.5rem;
+    }
+    .auth-toggle span {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+<script>
+  const toggleLogin = document.getElementById("toggle-login");
+  const toggleRegister = document.getElementById("toggle-register");
+  const loginForm = document.getElementById("login-form");
+  const registerForm = document.getElementById("register-form");
+
+  toggleLogin.addEventListener("click", () => {
+    loginForm.classList.add("active");
+    registerForm.classList.remove("active");
+    toggleLogin.classList.add("active");
+    toggleRegister.classList.remove("active");
+  });
+
+  toggleRegister.addEventListener("click", () => {
+    registerForm.classList.add("active");
+    loginForm.classList.remove("active");
+    toggleRegister.classList.add("active");
+    toggleLogin.classList.remove("active");
+  });
+</script>

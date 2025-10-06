@@ -10,10 +10,15 @@
     <script type="text/javascript" defer src="/js/script.js"></script>
   </head>
   <body>
+    <%- include('partials/search.ejs') %>
     <div class="container">
-      <%- include('../partials/header_admin.ejs') %>
+      <%- include('partials/header.ejs') %> <% if (success_msg) { %>
+      <div class="flash flash-success"><%= success_msg %></div>
+      <% } %> <% if (error_msg) { %>
+      <div class="flash flash-error"><%= error_msg %></div>
+      <% } %>
       <main class="main"><%- body %></main>
-      <%- include('../partials/footer.ejs') %>
+      <%- include('partials/footer.ejs') %>
     </div>
   </body>
 </html>
