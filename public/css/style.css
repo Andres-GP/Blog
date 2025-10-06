@@ -64,9 +64,16 @@ a:hover {
   box-shadow: 0 6px 12px rgba(0, 112, 243, 0.3);
 }
 
+.btn-edit {
+  margin-right: 10px;
+}
+
 .btn-delete {
   background: var(--red);
   color: var(--white);
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 16.5px !important;
 }
 
 .btn-delete:hover {
@@ -187,8 +194,8 @@ a:hover {
 
 /* ====== Articles / Cards ====== */
 .article-ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   list-style: none;
   padding: 0;
@@ -217,6 +224,27 @@ a:hover {
   margin: 0;
   color: var(--gray);
   font-size: 0.95rem;
+}
+
+.post-actions {
+  display: flex;
+  margin-top: 10px;
+}
+
+.dashboard-list {
+  margin-top: 20px;
+}
+
+.textarea {
+  resize: none;
+}
+
+.update-btn {
+  margin-bottom: 10px;
+}
+
+.delete-update {
+  zoom: 88%;
 }
 
 /* ====== Forms ====== */
@@ -393,37 +421,46 @@ form textarea:focus {
 }
 
 .flash {
-  max-width: 100%;
-  margin: 1rem auto;
-  padding: 1rem 1.5rem;
-  border-radius: var(--radius);
-  font-weight: 600;
-  text-align: center;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-  animation: slideDown 0.3s ease-out;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  animation: slideIn 0.5s forwards;
 }
 
 .flash-success {
-  background: #00b894;
-  color: #fff;
+  background-color: #34bc38;
 }
 
 .flash-error {
-  background: #d63031;
-  color: #fff;
+  background-color: #f44336;
 }
 
-@keyframes slideDown {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
+@keyframes slideIn {
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
+@keyframes slideOut {
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+.header__buttonsContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 .header__logoutBtn {
   display: flex;
   align-items: center;
@@ -443,6 +480,27 @@ form textarea:focus {
   color: var(--white);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 76, 76, 0.4);
+}
+
+.header__loginBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 2px solid var(--white);
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  background: none;
+  color: var(--white);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.header__loginBtn:hover {
+  background: #737171;
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(132, 125, 125, 0.4);
 }
 
 .header__logoutBtn svg {

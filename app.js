@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
+const User = require("./server/models/User");
 
 const connectDB = require("./server/config/db");
 const { isActiveRoute } = require("./server/helpers/routeHelpers");
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
 
+// Session + Flash
 app.use(
   session({
     secret: "keyboard cat",
@@ -33,21 +35,36 @@ app.use(
     }),
   })
 );
-
-app.use((req, res, next) => {
-  res.locals.user = req.user || null;
-  next();
-});
-
 app.use(flash());
 
+// Expose flash messages to views
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   next();
 });
 
-app.use(express.static("public"));
+// Expose user to views
+app.use(async (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    res.locals.user = null;
+    return next();
+  }
+
+  try {
+    const decoded = require("jsonwebtoken").verify(
+      token,
+      process.env.JWT_SECRET || "secret"
+    );
+    const user = await User.findById(decoded.userId);
+    res.locals.user = user || null;
+    next();
+  } catch (err) {
+    res.locals.user = null;
+    next();
+  }
+});
 
 app.use(expressLayout);
 app.set("layout", "./main");

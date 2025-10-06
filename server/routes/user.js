@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const jwtSecret = process.env.JWT_SECRET || "secret";
 
-// Middleware de autenticación
+// Middleware: Auth
 const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
   if (!token) return res.redirect("/login");
@@ -17,6 +17,7 @@ const authMiddleware = async (req, res, next) => {
     req.userId = decoded.userId;
     req.user = await User.findById(req.userId);
     if (!req.user) return res.redirect("/login");
+    res.locals.user = req.user;
     next();
   } catch (error) {
     return res.redirect("/login");
@@ -25,11 +26,7 @@ const authMiddleware = async (req, res, next) => {
 
 // LOGIN PAGE
 router.get("/login", (req, res) => {
-  res.render("login", {
-    currentRoute: "/login",
-    success_msg: req.flash("success_msg"),
-    error_msg: req.flash("error_msg"),
-  });
+  res.render("login", { currentRoute: "/login" });
 });
 
 // POST LOGIN
@@ -38,23 +35,23 @@ router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      req.flash("error_msg", "Usuario no encontrado");
+      req.flash("error_msg", "User not found");
       return res.redirect("/login");
     }
 
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-      req.flash("error_msg", "Contraseña incorrecta");
+      req.flash("error_msg", "Incorrect password");
       return res.redirect("/login");
     }
 
     const token = jwt.sign({ userId: user._id }, jwtSecret);
     res.cookie("token", token, { httpOnly: true });
-    req.flash("success_msg", "¡Login exitoso!");
+    req.flash("success_msg", "Login successful!");
     res.redirect("/dashboard");
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Error al iniciar sesión");
+    req.flash("error_msg", "Error logging in");
     res.redirect("/login");
   }
 });
@@ -74,8 +71,8 @@ router.post("/register", async (req, res) => {
   try {
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      req.flash("error_msg", "El usuario ya existe");
-      return res.redirect("/register");
+      req.flash("error_msg", "User already exists");
+      return res.redirect("/login");
     }
 
     const hash = await bcrypt.hash(password, 10);
@@ -83,12 +80,12 @@ router.post("/register", async (req, res) => {
 
     const token = jwt.sign({ userId: user._id }, jwtSecret);
     res.cookie("token", token, { httpOnly: true });
-    req.flash("success_msg", "¡Registro exitoso!");
+    req.flash("success_msg", "Registration successful!");
     res.redirect("/dashboard");
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Error al registrar el usuario");
-    res.redirect("/register");
+    req.flash("error_msg", "Error registering user");
+    res.redirect("/login");
   }
 });
 
@@ -102,11 +99,11 @@ router.post("/guest", async (req, res) => {
 
     const token = jwt.sign({ userId: guestUser._id }, jwtSecret);
     res.cookie("token", token, { httpOnly: true });
-    req.flash("success_msg", "¡Accediste como invitado!");
+    req.flash("success_msg", "Logged in as guest!");
     res.redirect("/dashboard");
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Error al iniciar como invitado");
+    req.flash("error_msg", "Error logging in as guest");
     res.redirect("/login");
   }
 });
@@ -114,7 +111,7 @@ router.post("/guest", async (req, res) => {
 // LOGOUT
 router.get("/logout", (req, res) => {
   res.clearCookie("token");
-  req.flash("success_msg", "Has cerrado sesión");
+  req.flash("success_msg", "You have logged out");
   res.redirect("/");
 });
 
@@ -125,12 +122,10 @@ router.get("/dashboard", authMiddleware, async (req, res) => {
     res.render("dashboard", {
       data: posts,
       currentRoute: "/dashboard",
-      success_msg: req.flash("success_msg"),
-      error_msg: req.flash("error_msg"),
     });
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Error cargando el dashboard");
+    req.flash("error_msg", "Error loading dashboard");
     res.redirect("/");
   }
 });
@@ -151,11 +146,11 @@ router.post("/add-post", authMiddleware, async (req, res) => {
       title: req.body.title,
       body: req.body.body,
     });
-    req.flash("success_msg", "Post agregado correctamente");
+    req.flash("success_msg", "Post added successfully");
     res.redirect("/dashboard");
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Error al agregar el post");
+    req.flash("error_msg", "Error adding post");
     res.redirect("/dashboard");
   }
 });
@@ -172,7 +167,7 @@ router.get("/edit-post/:id", authMiddleware, async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Error cargando el post");
+    req.flash("error_msg", "Error loading post");
     res.redirect("/dashboard");
   }
 });
@@ -185,11 +180,11 @@ router.put("/edit-post/:id", authMiddleware, async (req, res) => {
       body: req.body.body,
       updatedAt: Date.now(),
     });
-    req.flash("success_msg", "Post editado correctamente");
+    req.flash("success_msg", "Post edited successfully");
     res.redirect("/dashboard");
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Error al editar el post");
+    req.flash("error_msg", "Error editing post");
     res.redirect("/dashboard");
   }
 });
@@ -198,11 +193,11 @@ router.put("/edit-post/:id", authMiddleware, async (req, res) => {
 router.delete("/delete-post/:id", authMiddleware, async (req, res) => {
   try {
     await Post.findByIdAndDelete(req.params.id);
-    req.flash("success_msg", "Post eliminado correctamente");
+    req.flash("success_msg", "Post deleted successfully");
     res.redirect("/dashboard");
   } catch (err) {
     console.log(err);
-    req.flash("error_msg", "Error al eliminar el post");
+    req.flash("error_msg", "Error deleting post");
     res.redirect("/dashboard");
   }
 });

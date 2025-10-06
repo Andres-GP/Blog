@@ -12,11 +12,13 @@
   <body>
     <%- include('partials/search.ejs') %>
     <div class="container">
-      <%- include('partials/header.ejs') %> <% if (success_msg) { %>
-      <div class="flash flash-success"><%= success_msg %></div>
-      <% } %> <% if (error_msg) { %>
-      <div class="flash flash-error"><%= error_msg %></div>
+      <%- include('partials/header.ejs') %> <% if (success_msg &&
+      success_msg.length > 0) { %>
+      <div class="flash flash-success"><%= success_msg[0] %></div>
+      <% } %> <% if (error_msg && error_msg.length > 0) { %>
+      <div class="flash flash-error"><%= error_msg[0] %></div>
       <% } %>
+
       <main class="main"><%- body %></main>
       <%- include('partials/footer.ejs') %>
     </div>

@@ -12,65 +12,96 @@
         >
       </li>
       <% if (user) { %>
-      <li><a href="/dashboard" class="btn btn-header">Dashboard</a></li>
-      <% } else { %>
       <li>
-        <a href="/login" class="<%= isActiveRoute('/login', currentRoute) %>"
-          >Login</a
+        <a
+          href="/dashboard"
+          class="<%= isActiveRoute('/dashboard', currentRoute) %>"
+          >Dashboard</a
         >
       </li>
       <% } %>
     </ul>
   </nav>
-
-  <div class="header__button">
-    <button class="searchBtn" aria-expanded="false">
-      <span class="btn-text">Search</span>
-      <span class="btn-icon">
-        <svg
-          width="17"
-          height="17"
-          viewBox="0 0 17 17"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+  <div class="header__buttonsContainer">
+    <div class="header__button">
+      <button class="searchBtn" aria-expanded="false">
+        <span class="btn-text">Search</span>
+        <span class="btn-icon">
+          <svg
+            width="17"
+            height="17"
+            viewBox="0 0 17 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.79167 13.4583C10.9213 13.4583 13.4583 10.9213 13.4583 7.79167C13.4583 4.66205 10.9213 2.125 7.79167 2.125C4.66205 2.125 2.125 4.66205 2.125 7.79167C2.125 10.9213 4.66205 13.4583 7.79167 13.4583Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M14.875 14.875L11.7938 11.7938"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
+    <% if (user) { %>
+    <div class="header__button">
+      <button id="logoutBtn" class="header__logoutBtn">
+        Logout
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
           <path
-            d="M7.79167 13.4583C10.9213 13.4583 13.4583 10.9213 13.4583 7.79167C13.4583 4.66205 10.9213 2.125 7.79167 2.125C4.66205 2.125 2.125 4.66205 2.125 7.79167C2.125 10.9213 4.66205 13.4583 7.79167 13.4583Z"
-            stroke="currentColor"
+            d="M8.5 1.5V15.5"
+            stroke="white"
             stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"
           />
           <path
-            d="M14.875 14.875L11.7938 11.7938"
-            stroke="currentColor"
+            d="M5 12L8.5 15.5L12 12"
+            stroke="white"
             stroke-width="2"
             stroke-linecap="round"
-            stroke-linejoin="round"
           />
         </svg>
-      </span>
-    </button>
+      </button>
+    </div>
+    <% } %> <% if (!user) { %>
+    <div class="header__button">
+      <a href="/login">
+        <button class="header__loginBtn">
+          Login
+          <svg
+            width="17"
+            height="17"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 12H19"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 5L19 12L12 19"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </a>
+    </div>
+    <% } %>
   </div>
-  <% if (user) { %>
-  <div class="header__button">
-    <button id="logoutBtn" class="header__logoutBtn">
-      Logout
-      <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
-        <path
-          d="M8.5 1.5V15.5"
-          stroke="white"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
-        <path
-          d="M5 12L8.5 15.5L12 12"
-          stroke="white"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
-      </svg>
-    </button>
-  </div>
-  <% } %>
 </header>
