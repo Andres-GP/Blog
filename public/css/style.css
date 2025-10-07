@@ -226,6 +226,15 @@ a:hover {
   font-size: 0.95rem;
 }
 
+.article-card {
+  background: var(--gray-light);
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  border-radius: var(--radius);
+  transition: transform var(--transition-medium),
+    box-shadow var(--transition-medium);
+  margin-top: 20px;
+}
+
 .post-actions {
   display: flex;
   margin-top: 10px;
@@ -281,6 +290,10 @@ form textarea:focus {
 
 .btn-register {
   margin-top: 10px !important;
+}
+
+.view-older-posts-btn {
+  margin-top: 20px !important;
 }
 
 .auth-container {
