@@ -8,7 +8,7 @@
   --gray-light: #1a1a1a;
   --blue: #0070f3;
   --red: #ff4c4c;
-  --bg: #000000; /* Fondo oscuro estilo Next.js */
+  --bg: #000000;
   --font-base: 1rem;
   --font-md: clamp(1.25rem, 0.61vw + 1.1rem, 1.58rem);
   --font-lg: clamp(1.56rem, 1vw + 1.31rem, 2.11rem);
@@ -350,7 +350,7 @@ form textarea:focus {
   background: #1a1a1a;
   padding: 1rem 1.5rem;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  position: fixed; /* Siempre encima */
+  position: fixed;
   top: 0;
   left: 50%;
   transform: translate(-50%, -120%);

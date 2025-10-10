@@ -7,7 +7,7 @@ const connectDB = async () => {
     const conn = await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      tls: true, // fuerza TLS
+      tls: true,
       retryWrites: true,
       w: "majority",
     });
